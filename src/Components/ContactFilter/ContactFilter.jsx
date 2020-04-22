@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Input } from "./Filter.styles";
+import { Input } from "./ContactFilter.styles";
 
-const Filter = ({ value, changeFilter }) => {
+const ContactFilter = ({ value, changeFilter }) => {
   return (
     <Input
       placeholder="Search name"
@@ -13,8 +13,8 @@ const Filter = ({ value, changeFilter }) => {
   );
 };
 
-Filter.propTypes = {
+ContactFilter.propTypes = {
   value: PropTypes.string.isRequired,
   changeFilter: PropTypes.func.isRequired,
 };
-export default Filter;
+export default ContactFilter;

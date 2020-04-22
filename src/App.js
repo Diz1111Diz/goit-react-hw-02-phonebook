@@ -2,7 +2,10 @@ import React, { useState } from "react";
 
 import ContactForm from "./Components/ContactForm/ContactForm";
 import ContactList from "./Components/ContactList/ContactList";
-import Filter from "./Components/Filter/Filter";
+//Helpers
+import filterContact from "./helpers/filterContact";
+
+import ContactFilter from "./Components/ContactFilter/ContactFilter";
 
 function App() {
   const [contacts, setContacts] = useState([
@@ -22,28 +25,20 @@ function App() {
     setContacts(newState);
   };
 
-  const filterContact = (arr, filter) => {
-    return arr.filter((el) =>
-      el.name.toLowerCase().includes(filter.toLowerCase())
-    );
-  };
-
   const changeFilter = (e) => {
     const name = e.target.value;
     setFilter(name);
   };
+  const filteredContact = filterContact(contacts, filter);
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <ContactForm addNewContact={addNewContact} />
+      <ContactForm addNewContact={addNewContact} contacts={contacts} />
 
       <h2>Contacts</h2>
-      <Filter value={filter} changeFilter={changeFilter} />
-      <ContactList
-        contacts={filterContact(contacts, filter)}
-        deleteContact={deleteContact}
-      />
+      <ContactFilter value={filter} changeFilter={changeFilter} />
+      <ContactList contacts={filteredContact} deleteContact={deleteContact} />
     </div>
   );
 }

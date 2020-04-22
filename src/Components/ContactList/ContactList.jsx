@@ -2,18 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { List } from "./ContactList.styles";
-import Contact from "../Contact/Contact";
+import ContactItem from "../ContactItem/ContactItem";
 
 const ContactList = ({ contacts, deleteContact }) => {
   return (
     contacts.length > 0 && (
       <List>
         {contacts.map((contact) => (
-          <Contact
+          <ContactItem
             key={contact.id}
-            {...contact}
+            contact={contact}
             deleteContact={() => deleteContact(contact.id)}
-          ></Contact>
+          ></ContactItem>
         ))}
       </List>
     )
@@ -21,8 +21,14 @@ const ContactList = ({ contacts, deleteContact }) => {
 };
 
 ContactList.propTypes = {
-  contacts: PropTypes.array.isRequired,
-  deleteContact: PropTypes.func.isRequired,
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      number: PropTypes.string,
+      id: PropTypes.string,
+    })
+  ),
+  deleteContact: PropTypes.func,
 };
 
 export default ContactList;

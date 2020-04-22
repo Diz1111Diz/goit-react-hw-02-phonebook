@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { v1 as uuidv4 } from "uuid";
 import PropTypes from "prop-types";
-
-import { Title, Input, Button, Form } from "./ContactForm.styles";
+import { v1 as uuidv4 } from "uuid";
+import findContact from "../../helpers/findContact";
+import { Lable, Input, Button, Form } from "./ContactForm.styles";
 
 const formInitialState = {
   name: "",
   number: "",
 };
 
-const ContactForm = ({ addNewContact }) => {
+const ContactForm = ({ addNewContact, contacts }) => {
   const [form, setForm] = useState(formInitialState);
 
   const inputHandler = (e) => {
@@ -21,8 +21,17 @@ const ContactForm = ({ addNewContact }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     const { name, number } = form;
-    const contact = { name, number, id: uuidv4() };
+    const contact = {
+      name,
+      number,
+      id: uuidv4(),
+    };
 
+    const findSimilarName = findContact(contacts, contact);
+    if (findSimilarName) {
+      alert(`${contact.name} is already in contacts`);
+      return;
+    }
     addNewContact(contact);
     setForm(formInitialState);
   };
@@ -31,26 +40,36 @@ const ContactForm = ({ addNewContact }) => {
 
   return (
     <Form onSubmit={submitHandler}>
-      <Title>Name</Title>
-      <Input
-        type="text"
-        placeholder="New name"
-        name="name"
-        value={name}
-        onChange={inputHandler}
-        autoFocus
-        required
-      />
-      <Title>Number</Title>
-      <Input
-        type="text"
-        placeholder="8-0**-***-**-**"
-        name="number"
-        value={number}
-        onChange={inputHandler}
-        required
-      />
-      <Button type="submit">Add contact</Button>
+      <Lable htmlFor="name">
+        Name
+        <Input
+          name="name"
+          type="text"
+          value={name}
+          onChange={inputHandler}
+          autoFocus
+        />
+      </Lable>
+
+      <Lable htmlFor="number">
+        Number
+        <Input
+          name="number"
+          type="text"
+          value={number}
+          onChange={inputHandler}
+        />
+      </Lable>
+
+      {name.length >= 1 && number >= 1 ? (
+        <Button type="submit" disabled={false}>
+          Add contact
+        </Button>
+      ) : (
+        <Button type="submit" disabled={true}>
+          Add contact
+        </Button>
+      )}
     </Form>
   );
 };

@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Item, Text, Button } from "./Contact.styles";
+import { Item, Text, Button } from "./ContactItem.styles";
 
-const ContactItem = ({ name, number, deleteContact }) => {
+const ContactItem = ({ contact, deleteContact }) => {
+  const { name, number } = contact;
   return (
     <Item>
       <Text>
@@ -14,8 +15,8 @@ const ContactItem = ({ name, number, deleteContact }) => {
 };
 
 ContactItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  number: PropTypes.string,
   deleteContact: PropTypes.func.isRequired,
 };
 
