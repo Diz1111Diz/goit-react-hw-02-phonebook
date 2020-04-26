@@ -61,15 +61,9 @@ const ContactForm = ({ addNewContact, contacts }) => {
         />
       </Lable>
 
-      {name.length >= 1 && number >= 1 ? (
-        <Button type="submit" disabled={false}>
-          Add contact
-        </Button>
-      ) : (
-        <Button type="submit" disabled={true}>
-          Add contact
-        </Button>
-      )}
+      <Button type="submit" disabled={!name || !number}>
+        Add contact
+      </Button>
     </Form>
   );
 };
